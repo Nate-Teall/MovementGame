@@ -3,9 +3,12 @@ using System;
 
 public partial class Player : CharacterBody3D
 {	
-	private const float walkSpeed = 5.0f;
-	private const float sprintSpeed = 8.0f;
-	private const float jumpVelocity = 4.5f;
+	[Export]
+	private float walkSpeed = 5.0f;
+	[Export]
+	private float sprintSpeed = 8.0f;
+	[Export]
+	private float jumpVelocity = 4.5f;
 
 	private const float height = 2;
 	private const float cameraOffset = 0.6f;
