@@ -8,7 +8,7 @@ using System;
  * An abstract class that declares functions for a single state. 
  * Extend this class to implement a state.
  */
-public abstract partial class State : Node // What is "partial" keyword?
+public abstract partial class State : Node 
 {
 	// Emitted when the state finishes and wants to transition to another state.
 	[Signal]
