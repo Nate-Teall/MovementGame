@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbi4vtgbsyayt"]
+[gd_scene load_steps=9 format=3 uid="uid://cbi4vtgbsyayt"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_gusln"]
 [ext_resource type="Script" path="res://scripts/StateMachine.cs" id="2_8f1yg"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/player_states/Jumping.cs" id="4_g46r1"]
 [ext_resource type="Script" path="res://scripts/player_states/Falling.cs" id="5_85y5i"]
 [ext_resource type="Script" path="res://scripts/player_states/Walking.cs" id="6_r7wnt"]
+[ext_resource type="Script" path="res://scripts/player_states/Sprinting.cs" id="7_3vc8t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i6ixj"]
 
@@ -40,3 +41,6 @@ script = ExtResource("5_85y5i")
 
 [node name="Walking" type="Node" parent="StateMachine"]
 script = ExtResource("6_r7wnt")
+
+[node name="Sprinting" type="Node" parent="StateMachine"]
+script = ExtResource("7_3vc8t")

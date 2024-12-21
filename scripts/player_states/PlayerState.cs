@@ -10,11 +10,11 @@ using System;
  */
 public abstract partial class PlayerState : State
 {
-	public const string IDLE = "Idle";
-	public const string WALKING = "Walking";
-	public const string RUNNING = "Running";
-	public const string JUMPING = "Jumping";
-	public const string FALLING = "Falling";
+	protected const string IDLE = "Idle";
+	protected const string WALKING = "Walking";
+	protected const string SPRINTING = "Sprinting";
+	protected const string JUMPING = "Jumping";
+	protected const string FALLING = "Falling";
 
 	public Player player { get; private set; }
 

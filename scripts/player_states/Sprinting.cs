@@ -1,26 +1,26 @@
 using Godot;
 using System;
 
-public partial class Walking : PlayerState
+public partial class Sprinting : PlayerState
 {
 	public override void Enter(string prevState) { }
 
 	public override void HandleInput(InputEvent @event) 
 	{ 
-		if (player.IsOnFloor() && Input.IsActionJustPressed("jump"))
+		if (!Input.IsActionPressed("sprint"))
+		{
+			EmitSignal(SignalName.Finished, WALKING);
+		}
+		else if (Input.IsActionJustPressed("jump"))
 		{
 			EmitSignal(SignalName.Finished, JUMPING);
-		}
-		else if (player.IsOnFloor() && Input.IsActionPressed("sprint"))
-		{
-			EmitSignal(SignalName.Finished, SPRINTING);
 		}
 	}
 
 	public override void Update(double delta) { }
 
 	public override void PhysicsUpdate(double delta) 
-	{
+	{ 
 		Vector3 newVelocity = player.Velocity;
 
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
@@ -28,13 +28,13 @@ public partial class Walking : PlayerState
 
 		if (direction != Vector3.Zero)
 		{
-			newVelocity.X = direction.X * player.walkSpeed;
-			newVelocity.Z = direction.Z * player.walkSpeed;
+			newVelocity.X = direction.X * player.sprintSpeed;
+			newVelocity.Z = direction.Z * player.sprintSpeed;
 		}
 		else
 		{
-			newVelocity.X = Mathf.MoveToward(player.Velocity.X, 0, player.walkSpeed);
-			newVelocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.walkSpeed);
+			newVelocity.X = Mathf.MoveToward(player.Velocity.X, 0, player.sprintSpeed);
+			newVelocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.sprintSpeed);
 		}
 
 		player.Velocity = newVelocity;
