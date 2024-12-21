@@ -6,8 +6,6 @@ public partial class Jumping : PlayerState
 {
 	public override void Enter(string prevState)
 	{
-		GD.Print("entering JUMPING");
-		
 		Vector3 newVelocity = player.Velocity;
 		newVelocity.Y = player.jumpVelocity;
 		player.Velocity = newVelocity;

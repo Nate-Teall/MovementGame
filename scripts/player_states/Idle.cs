@@ -6,8 +6,6 @@ public partial class Idle : PlayerState
 {
 	public override void Enter(string prevState)
 	{
-		GD.Print("entering IDLE");
-
 		Vector3 newVelocity = player.Velocity;
 		newVelocity.X = 0;
 		newVelocity.Y = 0;
@@ -28,15 +26,14 @@ public partial class Idle : PlayerState
 		{
 			EmitSignal(SignalName.Finished, JUMPING);
 		}
-		else if (Input.GetVector("left", "right", "forward", "back") != Vector2.Zero)
+		else if (player.IsOnFloor() && Input.GetVector("left", "right", "forward", "back") != Vector2.Zero)
 		{
-			EmitSignal(SignalName.Finished, IDLE);
+			EmitSignal(SignalName.Finished, WALKING);
 		}
     }
 
     public override void PhysicsUpdate(double delta)
     {
-		player.Velocity += player.GetGravity() * (float)delta;
         player.MoveAndSlide();
     }
 

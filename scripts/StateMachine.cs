@@ -1,7 +1,6 @@
 using Godot;
 using Godot.Collections;
 using System;
-using System.Security.Cryptography;
 
 /*
  * StateMachine.cs
@@ -52,8 +51,6 @@ public partial class StateMachine : Node
 
     public void TransitionToNextState(string nextState)
 	{
-		GD.Print("Signal recieved from " + currentState.Name);
-
 		// If the state doesn't exist, stop and print an error
 		if (!HasNode(nextState))
 		{
@@ -63,6 +60,8 @@ public partial class StateMachine : Node
 		
 		string prevState = currentState.Name;
 		currentState.Exit();
+
+		GD.Print("Entering: " + nextState);
 
 		currentState = GetNode<State>(nextState);
 		currentState.Enter(prevState);

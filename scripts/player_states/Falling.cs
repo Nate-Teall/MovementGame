@@ -4,10 +4,7 @@ using System;
 
 public partial class Falling : PlayerState
 {
-	public override void Enter(string prevState)
-	{
-		GD.Print("entering FALLING");
-	}
+	public override void Enter(string prevState) { }
 
 	public override void HandleInput(InputEvent @event) { }
 
@@ -41,7 +38,7 @@ public partial class Falling : PlayerState
 			if (inputDir == Vector2.Zero)
 				EmitSignal(SignalName.Finished, IDLE);
 			else
-				EmitSignal(SignalName.Finished, IDLE);
+				EmitSignal(SignalName.Finished, WALKING);
 		}
 	}
 

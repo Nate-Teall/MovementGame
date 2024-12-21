@@ -5,9 +5,9 @@ using System.Dynamic;
 public partial class Player : CharacterBody3D
 {	
 	[Export]
-	private float walkSpeed = 5.0f;
+	public float walkSpeed { get; private set; }
 	[Export]
-	private float sprintSpeed = 8.0f;
+	public float sprintSpeed { get; private set; }
 	[Export]
 	public float airSpeed { get; private set; }
 	[Export]
