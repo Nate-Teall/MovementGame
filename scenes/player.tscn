@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbi4vtgbsyayt"]
+
+[ext_resource type="Script" path="res://scripts/Player.cs" id="1_gusln"]
+[ext_resource type="Script" path="res://scripts/StateMachine.cs" id="2_8f1yg"]
+[ext_resource type="Script" path="res://scripts/player_states/Idle.cs" id="3_g4ny5"]
+[ext_resource type="Script" path="res://scripts/player_states/Jumping.cs" id="4_g46r1"]
+[ext_resource type="Script" path="res://scripts/player_states/Falling.cs" id="5_85y5i"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i6ixj"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.115, 0)
+script = ExtResource("1_gusln")
+jumpVelocity = 7.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_i6ixj")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initialState")]
+script = ExtResource("2_8f1yg")
+initialState = NodePath("Falling")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("3_g4ny5")
+
+[node name="Jumping" type="Node" parent="StateMachine"]
+script = ExtResource("4_g46r1")
+
+[node name="Falling" type="Node" parent="StateMachine"]
+script = ExtResource("5_85y5i")

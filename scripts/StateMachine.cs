@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Security.Cryptography;
 
 /*
  * StateMachine.cs
@@ -12,7 +13,7 @@ public partial class StateMachine : Node
 {
 	// The initial state of the machine. If not set in the editor, the first child node is used
 	[Export]
-	State initialState = null;
+	State initialState;
 
 	// The current state of the machine
 	State currentState;
@@ -24,13 +25,10 @@ public partial class StateMachine : Node
 		currentState = initialState != null ? initialState : GetChild<State>(0); // Children MUST be States!
 
 		// Connect to every state's Finished signal
-		foreach (State state in FindChildren("*", "State"))
+		foreach (State state in GetChildren())
 		{
-			state.Finished += _TransitionToNextState; 
+			state.Finished += TransitionToNextState; 
 		}
-
-		// NOTE: The state machine may rely on data from the entire scene, so it might be
-		// 	necessary to wait for the root node to be ready before setting the initial state
 		
 		// Set the initial state
 		currentState.Enter("");
@@ -52,8 +50,10 @@ public partial class StateMachine : Node
         currentState.HandleInput(@event);
     }
 
-    private void _TransitionToNextState(string nextState, Dictionary data = null)
+    public void TransitionToNextState(string nextState)
 	{
+		GD.Print("Signal recieved from " + currentState.Name);
+
 		// If the state doesn't exist, stop and print an error
 		if (!HasNode(nextState))
 		{
@@ -65,6 +65,6 @@ public partial class StateMachine : Node
 		currentState.Exit();
 
 		currentState = GetNode<State>(nextState);
-		currentState.Enter(prevState, data);
+		currentState.Enter(prevState);
 	}
 }

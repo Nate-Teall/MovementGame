@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Dynamic;
 
 public partial class Player : CharacterBody3D
 {	
@@ -8,7 +9,9 @@ public partial class Player : CharacterBody3D
 	[Export]
 	private float sprintSpeed = 8.0f;
 	[Export]
-	private float jumpVelocity = 4.5f;
+	public float airSpeed { get; private set; }
+	[Export]
+	public float jumpVelocity { get; private set; }
 
 	private const float height = 2;
 	private const float cameraOffset = 0.6f;
@@ -26,7 +29,7 @@ public partial class Player : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
 	{
-		Vector3 velocity = Velocity;
+		/*Vector3 velocity = Velocity;
 
 		// Add the gravity.
 		if (!IsOnFloor())
@@ -79,6 +82,6 @@ public partial class Player : CharacterBody3D
 		}
 
 		Velocity = velocity;
-		MoveAndSlide();
+		MoveAndSlide();*/
 	}
 }

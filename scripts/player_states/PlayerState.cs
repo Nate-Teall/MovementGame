@@ -14,14 +14,13 @@ public abstract partial class PlayerState : State
 	public const string WALKING = "Walking";
 	public const string RUNNING = "Running";
 	public const string JUMPING = "Jumping";
+	public const string FALLING = "Falling";
 
 	public Player player { get; private set; }
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		// We might need to wait for Owner.Ready before doing this..?
-
 		player = Owner as Player;
 		if (player == null)
 		{
@@ -29,13 +28,13 @@ public abstract partial class PlayerState : State
 		}
 	}
 
+	public override abstract void Enter(string prevState);
+
 	public override abstract void HandleInput(InputEvent @event);
 
 	public override abstract void Update(double delta);
 
 	public override abstract void PhysicsUpdate(double delta);
-
-	public override abstract void Enter(string prevState, Dictionary data = null);
 
 	public override abstract void Exit();
 }

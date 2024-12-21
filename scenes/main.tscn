@@ -1,14 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://chap8sftr1xwk"]
+[gd_scene load_steps=5 format=3 uid="uid://chap8sftr1xwk"]
 
 [ext_resource type="Texture2D" uid="uid://b3cnajryucf6v" path="res://textures/Green.png" id="1_k05qo"]
-[ext_resource type="Script" path="res://scripts/Player.cs" id="2_2ko7c"]
+[ext_resource type="PackedScene" uid="uid://cbi4vtgbsyayt" path="res://scenes/player.tscn" id="2_hjn2w"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8a8ve"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o1t8a"]
 size = Vector3(100, 1, 100)
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i6ixj"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -22,14 +20,4 @@ texture = ExtResource("1_k05qo")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_o1t8a")
 
-[node name="Player" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.115, 0)
-script = ExtResource("2_2ko7c")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
-shape = SubResource("CapsuleShape3D_i6ixj")
-
-[node name="Head" type="Node3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
-
-[node name="Camera3D" type="Camera3D" parent="Player/Head"]
+[node name="Player" parent="." instance=ExtResource("2_hjn2w")]
