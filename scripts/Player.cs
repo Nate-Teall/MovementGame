@@ -12,7 +12,13 @@ public partial class Player : CharacterBody3D
 	public float jumpVelocity { get; private set; }
 	[Export]
 	public float crouchSpeed { get; private set; }
+	[Export]
+	public float slideDecel { get; private set; }
 
+	// Constants
+	public const float crouchHeightScale = 0.5f;
+
+	// Child nodes
 	public Node3D head { get; private set; }
 	private CollisionShape3D collision;
 

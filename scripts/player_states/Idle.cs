@@ -25,11 +25,11 @@ public partial class Idle : PlayerState
 		}
 		else if (player.IsOnFloor())
 		{
-			if (player.IsOnFloor() && Input.IsActionJustPressed("jump"))
+			if (Input.IsActionJustPressed("jump"))
 			{
 				EmitSignal(SignalName.Finished, JUMPING);
 			}
-			else if (Input.IsActionPressed("crouch"))
+			else if (Input.IsActionJustPressed("crouch"))
 			{
 				EmitSignal(SignalName.Finished, CROUCHING);
 			}

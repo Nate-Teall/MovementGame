@@ -22,9 +22,14 @@ public partial class Falling : PlayerState
 		if (player.IsOnFloor())
 		{
 			if (inputDir == Vector2.Zero)
+			{
 				EmitSignal(SignalName.Finished, IDLE);
+			}
 			else
-				EmitSignal(SignalName.Finished, WALKING);
+			{
+				string nextState = Input.IsActionPressed("sprint") ? SPRINTING : WALKING;
+				EmitSignal(SignalName.Finished, nextState);
+			}
 		}
 	}
 

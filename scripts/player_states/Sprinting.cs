@@ -17,7 +17,7 @@ public partial class Sprinting : PlayerState
 		}
 		else if (Input.IsActionJustPressed("crouch"))
 		{
-			EmitSignal(SignalName.Finished, CROUCHING);
+			EmitSignal(SignalName.Finished, SLIDING);
 		}
 	}
 
@@ -41,6 +41,10 @@ public partial class Sprinting : PlayerState
 			newVelocity.Z = 0;
 		}
 
+		// Weird observation: the length of this new velocity is always less than the SprintSpeed (between ~14 and ~16 if SprintSpeed is 16)
+		// 	This occurs ONLY when moving forward and back. It is EXACTLY equal to SprintSpeed when moving L/R
+		//	Why..? Could it be floating point error?
+		//GD.Print("playerVelLen: " + player.Velocity.Length());
 		player.Velocity = newVelocity;
 		player.MoveAndSlide();
 
@@ -48,7 +52,7 @@ public partial class Sprinting : PlayerState
 		{
 			EmitSignal(SignalName.Finished, IDLE);	
 		}
-		else if (!player.IsOnFloor() && player.Velocity.Y < 0)
+		else if (!player.IsOnFloor())
 		{
 			EmitSignal(SignalName.Finished, FALLING);
 		}

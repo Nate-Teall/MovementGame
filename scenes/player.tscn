@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cbi4vtgbsyayt"]
+[gd_scene load_steps=11 format=3 uid="uid://cbi4vtgbsyayt"]
 
 [ext_resource type="Script" path="res://scripts/Player.cs" id="1_gusln"]
 [ext_resource type="Script" path="res://scripts/StateMachine.cs" id="2_8f1yg"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/player_states/Walking.cs" id="6_r7wnt"]
 [ext_resource type="Script" path="res://scripts/player_states/Sprinting.cs" id="7_3vc8t"]
 [ext_resource type="Script" path="res://scripts/player_states/Crouching.cs" id="8_ftp6x"]
+[ext_resource type="Script" path="res://scripts/player_states/Sliding.cs" id="9_r5txe"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i6ixj"]
 
@@ -18,6 +19,7 @@ walkSpeed = 8.0
 sprintSpeed = 16.0
 jumpVelocity = 7.0
 crouchSpeed = 4.0
+slideDecel = 8.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_i6ixj")
@@ -48,3 +50,6 @@ script = ExtResource("7_3vc8t")
 
 [node name="Crouching" type="Node" parent="StateMachine"]
 script = ExtResource("8_ftp6x")
+
+[node name="Sliding" type="Node" parent="StateMachine"]
+script = ExtResource("9_r5txe")

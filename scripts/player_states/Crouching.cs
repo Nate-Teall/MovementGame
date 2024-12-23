@@ -3,23 +3,28 @@ using System;
 
 public partial class Crouching : PlayerState
 {
-
-	private const float crouchHeightScale = 0.5f;
-
 	public override void Enter(string prevState)
 	{
 		Vector3 newHeadPos = player.head.Position;
-		newHeadPos.Y *= crouchHeightScale;
+		newHeadPos.Y *= Player.crouchHeightScale;
 		player.head.Position = newHeadPos;
 	}
 
 	public override void HandleInput(InputEvent @event)
 	{
-		if (player.IsOnFloor() && Input.IsActionJustReleased("crouch"))
+		if (Input.IsActionJustReleased("crouch"))
 		{
-			EmitSignal(SignalName.Finished, IDLE);
+			if (Input.GetVector("left", "right", "forward", "back") != Vector2.Zero)
+			{
+				string nextState = Input.IsActionPressed("sprint") ? SPRINTING : WALKING;
+				EmitSignal(SignalName.Finished, nextState);
+			}
+			else
+			{
+				EmitSignal(SignalName.Finished, IDLE);
+			}
 		}
-		else if (player.IsOnFloor() && Input.IsActionPressed("sprint"))
+		else if (player.IsOnFloor() && Input.IsActionJustPressed("sprint"))
 		{
 			EmitSignal(SignalName.Finished, SPRINTING);
 		}
@@ -57,7 +62,7 @@ public partial class Crouching : PlayerState
 	public override void Exit()
 	{
 		Vector3 newHeadPos = player.head.Position;
-		newHeadPos.Y *= 1 / crouchHeightScale;
+		newHeadPos.Y *= 1 / Player.crouchHeightScale;
 		player.head.Position = newHeadPos;
 	}
 }
