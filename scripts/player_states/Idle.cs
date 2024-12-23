@@ -9,6 +9,7 @@ public partial class Idle : PlayerState
 		Vector3 newVelocity = player.Velocity;
 		newVelocity.X = 0;
 		newVelocity.Y = 0;
+		newVelocity.Z = 0;
 		player.Velocity = newVelocity;
 	}
 

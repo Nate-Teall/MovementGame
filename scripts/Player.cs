@@ -9,14 +9,7 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public float sprintSpeed { get; private set; }
 	[Export]
-	public float airSpeed { get; private set; }
-	[Export]
 	public float jumpVelocity { get; private set; }
-
-	private const float height = 2;
-	private const float cameraOffset = 0.6f;
-
-	private float currentSpeed;
 
 	public Node3D head { get; private set; }
 	private CollisionShape3D collision;

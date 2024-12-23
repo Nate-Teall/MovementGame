@@ -27,18 +27,21 @@ public partial class Walking : PlayerState
 		Vector3 newVelocity = player.Velocity;
 
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
-		GD.Print(inputDir); 
 		Vector3 direction = (player.head.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 
 		if (direction != Vector3.Zero)
 		{
+			// Accelerate towards the max walking speed, in the correct direction
+			//newVelocity.X = Mathf.MoveToward(player.Velocity.X, direction.X * player.walkSpeed, player.walkAccel * (float)delta);
+			//newVelocity.Z = Mathf.MoveToward(player.Velocity.Z, direction.Z * player.walkSpeed, player.walkAccel * (float)delta);
+
 			newVelocity.X = direction.X * player.walkSpeed;
 			newVelocity.Z = direction.Z * player.walkSpeed;
 		}
 		else
 		{
-			newVelocity.X = Mathf.MoveToward(player.Velocity.X, 0, player.walkSpeed);
-			newVelocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.walkSpeed);
+			newVelocity.X = 0;
+			newVelocity.Z = 0;
 		}
 
 		player.Velocity = newVelocity;
@@ -48,7 +51,7 @@ public partial class Walking : PlayerState
 		{
 			EmitSignal(SignalName.Finished, IDLE);	
 		}
-		else if (!player.IsOnFloor() && player.Velocity.Y < 0)
+		else if (!player.IsOnFloor())
 		{
 			EmitSignal(SignalName.Finished, FALLING);
 		}

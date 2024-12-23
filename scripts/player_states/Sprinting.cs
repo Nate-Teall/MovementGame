@@ -33,8 +33,8 @@ public partial class Sprinting : PlayerState
 		}
 		else
 		{
-			newVelocity.X = Mathf.MoveToward(player.Velocity.X, 0, player.sprintSpeed);
-			newVelocity.Z = Mathf.MoveToward(player.Velocity.Z, 0, player.sprintSpeed);
+			newVelocity.X = 0;
+			newVelocity.Z = 0;
 		}
 
 		player.Velocity = newVelocity;

@@ -13,8 +13,10 @@
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.115, 0)
 script = ExtResource("1_gusln")
-walkSpeed = 5.0
-sprintSpeed = 10.0
+walkSpeed = 8.0
+walkAccel = 25.0
+sprintSpeed = 16.0
+sprintAccel = 25.0
 airSpeed = 5.0
 jumpVelocity = 7.0
 
