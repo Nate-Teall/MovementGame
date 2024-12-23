@@ -27,7 +27,7 @@ public partial class Sprinting : PlayerState
 
 	public override void PhysicsUpdate(double delta) 
 	{ 
-		player.Velocity = moveInDirection(player.sprintSpeed);
+		player.Velocity = MoveInDirection(player.sprintSpeed);
 		player.MoveAndSlide();
 
 		if (player.Velocity == Vector3.Zero)

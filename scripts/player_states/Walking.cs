@@ -28,7 +28,7 @@ public partial class Walking : PlayerState
 
 	public override void PhysicsUpdate(double delta) 
 	{
-		player.Velocity = moveInDirection(player.walkSpeed);
+		player.Velocity = MoveInDirection(player.walkSpeed);
 		player.MoveAndSlide();
 
 		if (player.Velocity == Vector3.Zero)

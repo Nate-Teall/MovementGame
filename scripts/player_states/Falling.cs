@@ -21,7 +21,15 @@ public partial class Falling : PlayerState
 
 		if (player.IsOnFloor())
 		{
-			if (inputDir == Vector2.Zero)
+			// If moving fast enough, the player can slide on landing
+			if (Input.IsActionPressed("crouch"))
+			{
+				if (player.Velocity.Length() >= player.walkSpeed)
+					EmitSignal(SignalName.Finished, SLIDING);
+				else
+					EmitSignal(SignalName.Finished, CROUCHING);
+			}
+			else if (inputDir == Vector2.Zero)
 			{
 				EmitSignal(SignalName.Finished, IDLE);
 			}

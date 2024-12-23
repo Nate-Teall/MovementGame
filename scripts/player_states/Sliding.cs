@@ -8,11 +8,12 @@ public partial class Sliding : PlayerState
 
 	public override void Enter(string prevState) 
 	{ 
-		// Get the player's current speed and facing direction
-		// NOTE: If sliding immediately out of sprint, the velocity won't be exactly sprint speed.
-		//		 See comment in Sprinting.PhysicsUpdate()
+		// Get the player's current speed and input direction
 		slideSpeed = player.Velocity.Length();
-		movingDirection = player.Velocity.Normalized();
+		movingDirection = GetInputDirection();  			// slide in direction of input
+
+		if (movingDirection == Vector3.Zero)
+			movingDirection = player.Velocity.Normalized(); // slide in direction of velocity
 
 		Vector3 newHeadPos = player.head.Position;
 		newHeadPos.Y *= Player.crouchHeightScale;

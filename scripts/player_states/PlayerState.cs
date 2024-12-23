@@ -1,5 +1,4 @@
 using Godot;
-using Godot.Collections;
 using System;
 
 /*
@@ -30,13 +29,18 @@ public abstract partial class PlayerState : State
 		}
 	}
 
-	protected Vector3 moveInDirection(float moveSpeed)
+	// Returns the player's input direction (8 ways)
+	protected Vector3 GetInputDirection()
+	{
+		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
+		return (player.collision.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+	}
+
+	protected Vector3 MoveInDirection(float moveSpeed)
 	{
 		Vector3 newVelocity = player.Velocity;
 
-		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
-		GD.Print(player.collision.Transform.Basis);
-		Vector3 direction = (player.collision.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		Vector3 direction = GetInputDirection();
 
 		if (direction != Vector3.Zero)
 		{
@@ -49,10 +53,6 @@ public abstract partial class PlayerState : State
 			newVelocity.Z = 0;
 		}
 
-		// Weird observation: the length of this new velocity is always less than the SprintSpeed (between ~14 and ~16 if SprintSpeed is 16)
-		// 	This occurs ONLY when moving forward and back. It is EXACTLY equal to SprintSpeed when moving L/R
-		//	Why..? Could it be floating point error?
-		GD.Print("playerVelLen: " + player.Velocity.Length());
 		return newVelocity;
 	}
 
