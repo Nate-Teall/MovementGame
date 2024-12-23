@@ -7,13 +7,17 @@ public partial class Sprinting : PlayerState
 
 	public override void HandleInput(InputEvent @event) 
 	{ 
-		if (!Input.IsActionPressed("sprint"))
+		if (Input.IsActionJustReleased("sprint"))
 		{
 			EmitSignal(SignalName.Finished, WALKING);
 		}
 		else if (Input.IsActionJustPressed("jump"))
 		{
 			EmitSignal(SignalName.Finished, JUMPING);
+		}
+		else if (Input.IsActionJustPressed("crouch"))
+		{
+			EmitSignal(SignalName.Finished, CROUCHING);
 		}
 	}
 

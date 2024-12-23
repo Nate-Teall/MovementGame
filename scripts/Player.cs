@@ -1,15 +1,17 @@
 using Godot;
 using System;
-using System.Dynamic;
 
 public partial class Player : CharacterBody3D
 {	
+	// Movement speed variables
 	[Export]
 	public float walkSpeed { get; private set; }
 	[Export]
 	public float sprintSpeed { get; private set; }
 	[Export]
 	public float jumpVelocity { get; private set; }
+	[Export]
+	public float crouchSpeed { get; private set; }
 
 	public Node3D head { get; private set; }
 	private CollisionShape3D collision;

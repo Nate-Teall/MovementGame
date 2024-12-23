@@ -18,6 +18,10 @@ public partial class Walking : PlayerState
 		{
 			EmitSignal(SignalName.Finished, SPRINTING);
 		}
+		else if (player.IsOnFloor() && Input.IsActionPressed("crouch"))
+		{
+			EmitSignal(SignalName.Finished, CROUCHING);
+		}
 	}
 
 	public override void Update(double delta) { }

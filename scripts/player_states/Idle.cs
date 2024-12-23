@@ -23,19 +23,20 @@ public partial class Idle : PlayerState
 		{
 			EmitSignal(SignalName.Finished, FALLING);
 		}
-		else if (player.IsOnFloor() && Input.IsActionJustPressed("jump"))
+		else if (player.IsOnFloor())
 		{
-			EmitSignal(SignalName.Finished, JUMPING);
-		}
-		else if (player.IsOnFloor() && Input.GetVector("left", "right", "forward", "back") != Vector2.Zero)
-		{
-			if (Input.IsActionPressed("sprint"))
+			if (player.IsOnFloor() && Input.IsActionJustPressed("jump"))
 			{
-				EmitSignal(SignalName.Finished, SPRINTING);
+				EmitSignal(SignalName.Finished, JUMPING);
 			}
-			else
+			else if (Input.IsActionPressed("crouch"))
 			{
-				EmitSignal(SignalName.Finished, WALKING);
+				EmitSignal(SignalName.Finished, CROUCHING);
+			}
+			else if (Input.GetVector("left", "right", "forward", "back") != Vector2.Zero)
+			{
+				string nextState = Input.IsActionPressed("sprint") ? SPRINTING : WALKING;
+				EmitSignal(SignalName.Finished, nextState);
 			}
 		}
     }
