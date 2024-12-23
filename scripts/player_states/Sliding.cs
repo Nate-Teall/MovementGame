@@ -21,6 +21,8 @@ public partial class Sliding : PlayerState
 
 	public override void HandleInput(InputEvent @event) 
 	{ 
+		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
+
 		// Sliding can be cancelled by jumping or unpressing crouch
 		if (Input.IsActionJustPressed("jump"))
 		{
@@ -28,10 +30,16 @@ public partial class Sliding : PlayerState
 		}
 		else if (Input.IsActionJustReleased("crouch"))
 		{
-			if (Input.GetVector("left", "right", "forward", "back") != Vector2.Zero)
+			if (inputDir != Vector2.Zero)
 			{
-				string nextState = Input.IsActionPressed("sprint") ? SPRINTING : WALKING;
-				EmitSignal(SignalName.Finished, nextState);
+				if (Input.IsActionPressed("sprint") && inputDir.Y <= 0)
+				{
+					EmitSignal(SignalName.Finished, SPRINTING);
+				}
+					else
+				{
+					EmitSignal(SignalName.Finished, WALKING);
+				}
 			}
 			else
 			{
