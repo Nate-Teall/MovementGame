@@ -24,7 +24,7 @@ public partial class Player : CharacterBody3D
 
 	// Child nodes
 	public Node3D head { get; private set; }
-	private CollisionShape3D collision;
+	public CollisionShape3D collision { get; private set; }
 
 	// Camera movement variables
 	[Export]
@@ -56,15 +56,26 @@ public partial class Player : CharacterBody3D
 			rotationX -= mouseMotion.Relative.X * lookSpeed;
 			rotationY -= mouseMotion.Relative.Y * lookSpeed;
 
-			// reset the rotation of the basis of the head
+			// Limit the max angle the player can look up/down
+			rotationY = rotationY > Mathf.Pi / 2 ? Mathf.Pi / 2 : rotationY;
+			rotationY = rotationY < -Mathf.Pi / 2 ? -Mathf.Pi / 2 : rotationY;
+
+			// reset the rotation of the basis of the head and collision box
 			// AKA x, y, z = [1,0,0] [0,1,0] [0,0,1]
 			Transform3D headTransform = head.Transform;
         	headTransform.Basis = Basis.Identity;
         	head.Transform = headTransform;
 
+			Transform3D collisionTransform = collision.Transform;
+			collisionTransform.Basis = Basis.Identity;
+			collision.Transform = collisionTransform;
+
 			// Apply the rotation 
 			head.RotateObjectLocal(Vector3.Up, rotationX);    // Rotate around the Y axis first (side-side motion)
 			head.RotateObjectLocal(Vector3.Right, rotationY); // Rotate around the X axis next (up-down motion)
+
+			// Rotate the collision box as well
+			collision.RotateObjectLocal(Vector3.Up, rotationX); // Body should be rotated ONLY side-side
 		}
 	}
 

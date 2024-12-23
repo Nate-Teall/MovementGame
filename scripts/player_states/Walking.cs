@@ -28,27 +28,7 @@ public partial class Walking : PlayerState
 
 	public override void PhysicsUpdate(double delta) 
 	{
-		Vector3 newVelocity = player.Velocity;
-
-		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
-		Vector3 direction = (player.head.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-
-		if (direction != Vector3.Zero)
-		{
-			// Accelerate towards the max walking speed, in the correct direction
-			//newVelocity.X = Mathf.MoveToward(player.Velocity.X, direction.X * player.walkSpeed, player.walkAccel * (float)delta);
-			//newVelocity.Z = Mathf.MoveToward(player.Velocity.Z, direction.Z * player.walkSpeed, player.walkAccel * (float)delta);
-
-			newVelocity.X = direction.X * player.walkSpeed;
-			newVelocity.Z = direction.Z * player.walkSpeed;
-		}
-		else
-		{
-			newVelocity.X = 0;
-			newVelocity.Z = 0;
-		}
-
-		player.Velocity = newVelocity;
+		player.Velocity = moveInDirection(player.walkSpeed);
 		player.MoveAndSlide();
 
 		if (player.Velocity == Vector3.Zero)
