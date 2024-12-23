@@ -25,10 +25,13 @@ public partial class Falling : PlayerState
 			{
 				EmitSignal(SignalName.Finished, IDLE);
 			}
+			else if (Input.IsActionPressed("sprint") && inputDir.Y <= 0)
+			{
+				EmitSignal(SignalName.Finished, SPRINTING);
+			}
 			else
 			{
-				string nextState = Input.IsActionPressed("sprint") ? SPRINTING : WALKING;
-				EmitSignal(SignalName.Finished, nextState);
+				EmitSignal(SignalName.Finished, WALKING);
 			}
 		}
 	}
