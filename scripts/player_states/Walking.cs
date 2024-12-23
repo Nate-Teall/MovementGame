@@ -7,13 +7,16 @@ public partial class Walking : PlayerState
 
 	public override void HandleInput(InputEvent @event) 
 	{ 
+		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
+
 		if (Input.IsActionJustPressed("jump"))
 		{
 			EmitSignal(SignalName.Finished, JUMPING);
 		}
 		else if (Input.IsActionJustPressed("sprint"))
 		{
-			EmitSignal(SignalName.Finished, SPRINTING);
+			if (inputDir.Y <= 0)
+				EmitSignal(SignalName.Finished, SPRINTING);
 		}
 		else if (Input.IsActionJustPressed("crouch"))
 		{

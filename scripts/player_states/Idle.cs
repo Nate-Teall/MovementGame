@@ -23,8 +23,9 @@ public partial class Idle : PlayerState
 		{
 			EmitSignal(SignalName.Finished, FALLING);
 		}
-		else if (player.IsOnFloor())
+		else
 		{
+			Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
 			if (Input.IsActionJustPressed("jump"))
 			{
 				EmitSignal(SignalName.Finished, JUMPING);
@@ -33,10 +34,17 @@ public partial class Idle : PlayerState
 			{
 				EmitSignal(SignalName.Finished, CROUCHING);
 			}
-			else if (Input.GetVector("left", "right", "forward", "back") != Vector2.Zero)
+			else if (inputDir != Vector2.Zero)
 			{
-				string nextState = Input.IsActionPressed("sprint") ? SPRINTING : WALKING;
-				EmitSignal(SignalName.Finished, nextState);
+				// Can only sprint forward/sideways
+				if (Input.IsActionPressed("sprint") && inputDir.Y <= 0)
+				{
+					EmitSignal(SignalName.Finished, SPRINTING);
+				}
+				else
+				{
+					EmitSignal(SignalName.Finished, WALKING);
+				}
 			}
 		}
     }

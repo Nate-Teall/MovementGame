@@ -7,7 +7,9 @@ public partial class Sprinting : PlayerState
 
 	public override void HandleInput(InputEvent @event) 
 	{ 
-		if (Input.IsActionJustReleased("sprint"))
+		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
+
+		if (Input.IsActionJustReleased("sprint") || inputDir.Y > 0)
 		{
 			EmitSignal(SignalName.Finished, WALKING);
 		}
