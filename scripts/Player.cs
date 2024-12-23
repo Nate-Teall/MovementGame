@@ -5,18 +5,22 @@ public partial class Player : CharacterBody3D
 {	
 	// Movement speed variables
 	[Export]
-	public float walkSpeed { get; private set; }
+	public float walkSpeed { get; private set; } = 8f;
 	[Export]
-	public float sprintSpeed { get; private set; }
+	public float sprintSpeed { get; private set; } = 16f;
 	[Export]
-	public float jumpVelocity { get; private set; }
+	public float jumpVelocity { get; private set; } = 5f;
 	[Export]
-	public float crouchSpeed { get; private set; }
+	public float crouchSpeed { get; private set; } = 4f;
 	[Export]
-	public float slideDecel { get; private set; }
+	public float slideDecel { get; private set; } = 8f;
+	[Export]
+	public float airSpeed { get; private set;} = 4f;
+	[Export]
+	public float airAccel { get; private set; } = 3f;
 
 	// Constants
-	public const float crouchHeightScale = 0.5f;
+	public const float crouchHeightScale = 0.3f;
 
 	// Child nodes
 	public Node3D head { get; private set; }

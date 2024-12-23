@@ -22,6 +22,8 @@ shape = SubResource("BoxShape3D_o1t8a")
 
 [node name="Player" parent="." instance=ExtResource("2_hjn2w")]
 jumpVelocity = 5.0
+airSpeed = 16.0
+airAccel = 64.0
 
 [node name="Forward_NegativeZ" type="StaticBody3D" parent="."]
 transform = Transform3D(0.335, 0, 0, 0, -1.46433e-08, -0.335, 0, 0.335, -1.46433e-08, 0, 23.1, -57.255)
