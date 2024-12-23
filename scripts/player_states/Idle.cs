@@ -28,7 +28,14 @@ public partial class Idle : PlayerState
 		}
 		else if (player.IsOnFloor() && Input.GetVector("left", "right", "forward", "back") != Vector2.Zero)
 		{
-			EmitSignal(SignalName.Finished, WALKING);
+			if (Input.IsActionPressed("sprint"))
+			{
+				EmitSignal(SignalName.Finished, SPRINTING);
+			}
+			else
+			{
+				EmitSignal(SignalName.Finished, WALKING);
+			}
 		}
     }
 
