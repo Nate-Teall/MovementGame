@@ -1,24 +1,62 @@
-[gd_scene load_steps=5 format=3 uid="uid://chap8sftr1xwk"]
+[gd_scene load_steps=13 format=3 uid="uid://chap8sftr1xwk"]
 
 [ext_resource type="Texture2D" uid="uid://b3cnajryucf6v" path="res://textures/Green.png" id="1_k05qo"]
+[ext_resource type="Texture2D" uid="uid://di3yfwcikgtqt" path="res://textures/default.png" id="1_rrl2n"]
 [ext_resource type="PackedScene" uid="uid://cbi4vtgbsyayt" path="res://scenes/player.tscn" id="2_hjn2w"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s3kq3"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_kyjw1"]
+sky_material = SubResource("ProceduralSkyMaterial_s3kq3")
+
+[sub_resource type="Environment" id="Environment_277vn"]
+background_mode = 2
+sky = SubResource("Sky_kyjw1")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_8a8ve"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o1t8a"]
 size = Vector3(100, 1, 100)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1b3n"]
+albedo_texture = ExtResource("1_rrl2n")
+uv1_scale = Vector3(0.25, 0.25, 0.25)
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ki1ib"]
+material = SubResource("StandardMaterial3D_c1b3n")
+size = Vector2(100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50ksh"]
+albedo_texture = ExtResource("1_rrl2n")
+uv1_scale = Vector3(16, 16, 16)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qxnsq"]
+material = SubResource("StandardMaterial3D_50ksh")
+size = Vector2(32, 32)
+
 [node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_277vn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 physics_material_override = SubResource("PhysicsMaterial_8a8ve")
 
-[node name="Sprite3D" type="Sprite3D" parent="StaticBody3D"]
-transform = Transform3D(100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 0, 0.5, 0)
-texture = ExtResource("1_k05qo")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_o1t8a")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_ki1ib")
+skeleton = NodePath("../..")
 
 [node name="Player" parent="." instance=ExtResource("2_hjn2w")]
 jumpVelocity = 5.0
@@ -26,12 +64,16 @@ airSpeed = 16.0
 airAccel = 64.0
 
 [node name="Forward_NegativeZ" type="StaticBody3D" parent="."]
-transform = Transform3D(0.335, 0, 0, 0, -1.46433e-08, -0.335, 0, 0.335, -1.46433e-08, 0, 23.1, -57.255)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 23.1, -57.255)
 physics_material_override = SubResource("PhysicsMaterial_8a8ve")
 
 [node name="Sprite3D" type="Sprite3D" parent="Forward_NegativeZ"]
 transform = Transform3D(100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 0, 0.5, 0)
+visible = false
 texture = ExtResource("1_k05qo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Forward_NegativeZ"]
 shape = SubResource("BoxShape3D_o1t8a")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Forward_NegativeZ"]
+mesh = SubResource("PlaneMesh_qxnsq")
