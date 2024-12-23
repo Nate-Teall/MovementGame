@@ -24,7 +24,7 @@ public partial class Sprinting : PlayerState
 		Vector3 newVelocity = player.Velocity;
 
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
-		Vector3 direction = (player.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		Vector3 direction = (player.head.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 
 		if (direction != Vector3.Zero)
 		{

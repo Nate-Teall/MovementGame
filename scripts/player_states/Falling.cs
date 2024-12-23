@@ -17,7 +17,7 @@ public partial class Falling : PlayerState
 		newVelocity += player.GetGravity() * (float)delta;
 
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
-		Vector3 direction = (player.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		Vector3 direction = (player.head.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 
 		if (direction != Vector3.Zero)
 		{

@@ -16,7 +16,7 @@ public abstract partial class PlayerState : State
 	protected const string JUMPING = "Jumping";
 	protected const string FALLING = "Falling";
 
-	public Player player { get; private set; }
+	protected Player player;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

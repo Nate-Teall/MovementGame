@@ -21,3 +21,14 @@ texture = ExtResource("1_k05qo")
 shape = SubResource("BoxShape3D_o1t8a")
 
 [node name="Player" parent="." instance=ExtResource("2_hjn2w")]
+
+[node name="Forward_NegativeZ" type="StaticBody3D" parent="."]
+transform = Transform3D(0.335, 0, 0, 0, -1.46433e-08, -0.335, 0, 0.335, -1.46433e-08, 0, 23.1, -57.255)
+physics_material_override = SubResource("PhysicsMaterial_8a8ve")
+
+[node name="Sprite3D" type="Sprite3D" parent="Forward_NegativeZ"]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, -100, 0, 100, -4.37114e-06, 0, 0.5, 0)
+texture = ExtResource("1_k05qo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Forward_NegativeZ"]
+shape = SubResource("BoxShape3D_o1t8a")

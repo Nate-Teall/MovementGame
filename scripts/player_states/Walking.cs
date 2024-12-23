@@ -7,6 +7,9 @@ public partial class Walking : PlayerState
 
 	public override void HandleInput(InputEvent @event) 
 	{ 
+		// TODO: Sometimes there is a considerable delay between walk and sprint start if
+		//		 the player holds sprint key before pressing a direction. Why? 
+		//		 Maybe add transition between IDLE -> SPRINTING ?
 		if (player.IsOnFloor() && Input.IsActionJustPressed("jump"))
 		{
 			EmitSignal(SignalName.Finished, JUMPING);
@@ -24,7 +27,8 @@ public partial class Walking : PlayerState
 		Vector3 newVelocity = player.Velocity;
 
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
-		Vector3 direction = (player.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
+		GD.Print(inputDir); 
+		Vector3 direction = (player.head.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 
 		if (direction != Vector3.Zero)
 		{

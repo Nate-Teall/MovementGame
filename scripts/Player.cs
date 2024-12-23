@@ -18,70 +18,52 @@ public partial class Player : CharacterBody3D
 
 	private float currentSpeed;
 
-	private Node3D head;
+	public Node3D head { get; private set; }
 	private CollisionShape3D collision;
+
+	// Camera movement variables
+	[Export]
+	private float lookSpeed = 0.001f;
+	private Vector2 screenCenter;
+	// holds the current X and Y rotation of the player's head
+	private float rotationX;
+	private float rotationY;
 
     public override void _Ready()
     {
 		collision = GetChild<CollisionShape3D>(0);
 		head = GetChild<Node3D>(1);
+
+		Input.SetMouseMode(Input.MouseModeEnum.ConfinedHidden);
+		screenCenter = new Vector2(
+			GetViewport().GetVisibleRect().Size.X / 2,
+			GetViewport().GetVisibleRect().Size.Y / 2
+		);
     }
+
+	public override void _Input(InputEvent @event)
+	{
+		// Code for mouse movement was taken from: https://docs.godotengine.org/en/4.0/tutorials/3d/using_transforms.html
+		// Saving this link for future reference on using Transforms.
+		if (@event is InputEventMouseMotion mouseMotion)
+		{
+			//	modify the rotation based on mouse movement
+			rotationX -= mouseMotion.Relative.X * lookSpeed;
+			rotationY -= mouseMotion.Relative.Y * lookSpeed;
+
+			// reset the rotation of the basis of the head
+			// AKA x, y, z = [1,0,0] [0,1,0] [0,0,1]
+			Transform3D headTransform = head.Transform;
+        	headTransform.Basis = Basis.Identity;
+        	head.Transform = headTransform;
+
+			// Apply the rotation 
+			head.RotateObjectLocal(Vector3.Up, rotationX);    // Rotate around the Y axis first (side-side motion)
+			head.RotateObjectLocal(Vector3.Right, rotationY); // Rotate around the X axis next (up-down motion)
+		}
+	}
 
     public override void _PhysicsProcess(double delta)
 	{
-		/*Vector3 velocity = Velocity;
-
-		// Add the gravity.
-		if (!IsOnFloor())
-		{
-			velocity += GetGravity() * (float)delta;
-		}
-
-		// Handle Jump.
-		if (Input.IsActionJustPressed("jump") && IsOnFloor())
-		{
-			velocity.Y = jumpVelocity;
-		}
-
-		// Get the input direction and handle the movement/deceleration.
-		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
-		Vector3 direction = (Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-		if (direction != Vector3.Zero)
-		{
-			velocity.X = direction.X * currentSpeed;
-			velocity.Z = direction.Z * currentSpeed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, currentSpeed);
-			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, currentSpeed);
-		}
-
-		// Handle Crouch
-		if (Input.IsActionPressed("crouch"))
-		{
-			head.Position = new Vector3(head.Position.X, cameraOffset * 0.5f, head.Position.Z);
-			CapsuleShape3D collisionShape = (CapsuleShape3D)collision.Shape;
-			collisionShape.Height = 0.5f * height;
-		}
-		else
-		{
-			head.Position = new Vector3(head.Position.X, cameraOffset, head.Position.Z);
-			CapsuleShape3D collisionShape = (CapsuleShape3D)collision.Shape;
-			collisionShape.Height = height;
-		}
-
-		// Handle Sprint
-		if (Input.IsActionPressed("sprint"))
-		{
-			currentSpeed = sprintSpeed;
-		}
-		else
-		{
-			currentSpeed = walkSpeed;
-		}
-
-		Velocity = velocity;
-		MoveAndSlide();*/
 	}
 }
