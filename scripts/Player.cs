@@ -34,7 +34,7 @@ public partial class Player : CharacterBody3D
 		collision = GetChild<CollisionShape3D>(0);
 		head = GetChild<Node3D>(1);
 
-		Input.SetMouseMode(Input.MouseModeEnum.ConfinedHidden);
+		Input.SetMouseMode(Input.MouseModeEnum.Captured);
 		screenCenter = new Vector2(
 			GetViewport().GetVisibleRect().Size.X / 2,
 			GetViewport().GetVisibleRect().Size.Y / 2
