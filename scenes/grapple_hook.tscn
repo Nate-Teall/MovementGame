@@ -13,8 +13,8 @@ material = SubResource("StandardMaterial3D_ogk4o")
 [sub_resource type="BoxShape3D" id="BoxShape3D_rcd4t"]
 
 [node name="GrappleHook" type="Node3D"]
+visible = false
 script = ExtResource("1_v5j04")
-projectileSpeed = 50.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)

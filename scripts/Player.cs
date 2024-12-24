@@ -31,12 +31,17 @@ public partial class Player : CharacterBody3D
 	private float rotationY;
 
 	// Scenes
-	private PackedScene projectile = GD.Load<PackedScene>("res://scenes/grapple_hook.tscn");
+	private PackedScene grappleHookScene = GD.Load<PackedScene>("res://scenes/grapple_hook.tscn");
+
+	// Grappling hook variables
+	private GrappleHook grapplingHook;
 
     public override void _Ready()
     {
 		collision = GetChild<CollisionShape3D>(0);
 		head = GetChild<Node3D>(1);
+
+		grapplingHook = GetNode<GrappleHook>("../GrappleHook");
 
 		Input.SetMouseMode(Input.MouseModeEnum.Captured);
 		screenCenter = new Vector2(
@@ -78,11 +83,12 @@ public partial class Player : CharacterBody3D
 		}
 
 		if (Input.IsActionJustPressed("grapple"))
+		{		
+			grapplingHook.Fire(head.GlobalPosition, -head.Transform.Basis.Z.Normalized());
+		}
+		else if (Input.IsActionJustReleased("grapple"))
 		{
-			GrappleHook instance = projectile.Instantiate<GrappleHook>();
-			instance.direction = -head.Transform.Basis.Z.Normalized();
-			instance.Position = head.GlobalPosition;
-			AddSibling(instance);
+			grapplingHook.Return();
 		}
 	}
 

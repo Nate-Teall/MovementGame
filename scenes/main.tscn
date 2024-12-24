@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://chap8sftr1xwk"]
+[gd_scene load_steps=16 format=3 uid="uid://chap8sftr1xwk"]
 
 [ext_resource type="Texture2D" uid="uid://b3cnajryucf6v" path="res://textures/Green.png" id="1_k05qo"]
 [ext_resource type="Texture2D" uid="uid://di3yfwcikgtqt" path="res://textures/default.png" id="1_rrl2n"]
 [ext_resource type="PackedScene" uid="uid://cbi4vtgbsyayt" path="res://scenes/player.tscn" id="2_hjn2w"]
+[ext_resource type="PackedScene" uid="uid://cx33sdnyjoryh" path="res://scenes/grapple_hook.tscn" id="4_6xss5"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_s3kq3"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -84,3 +85,5 @@ shape = SubResource("BoxShape3D_o1t8a")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Forward_NegativeZ"]
 mesh = SubResource("PlaneMesh_qxnsq")
+
+[node name="GrappleHook" parent="." instance=ExtResource("4_6xss5")]
