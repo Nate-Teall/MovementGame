@@ -14,10 +14,6 @@ public partial class Player : CharacterBody3D
 	public float crouchSpeed { get; private set; } = 4f;
 	[Export]
 	public float slideDecel { get; private set; } = 8f;
-	[Export]
-	public float airSpeed { get; private set;} = 4f;
-	[Export]
-	public float airAccel { get; private set; } = 3f;
 
 	// Constants
 	public const float crouchHeightScale = 0.3f;
@@ -33,6 +29,9 @@ public partial class Player : CharacterBody3D
 	// holds the current X and Y rotation of the player's head
 	private float rotationX;
 	private float rotationY;
+
+	// Scenes
+	private PackedScene projectile = GD.Load<PackedScene>("res://scenes/grapple_hook.tscn");
 
     public override void _Ready()
     {
@@ -76,6 +75,14 @@ public partial class Player : CharacterBody3D
 
 			// Rotate the collision box as well
 			collision.RotateObjectLocal(Vector3.Up, rotationX); // Body should be rotated ONLY side-side
+		}
+
+		if (Input.IsActionJustPressed("grapple"))
+		{
+			GrappleHook instance = projectile.Instantiate<GrappleHook>();
+			instance.direction = -head.Transform.Basis.Z.Normalized();
+			instance.Position = head.GlobalPosition;
+			AddSibling(instance);
 		}
 	}
 

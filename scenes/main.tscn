@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://chap8sftr1xwk"]
+[gd_scene load_steps=15 format=3 uid="uid://chap8sftr1xwk"]
 
 [ext_resource type="Texture2D" uid="uid://b3cnajryucf6v" path="res://textures/Green.png" id="1_k05qo"]
 [ext_resource type="Texture2D" uid="uid://di3yfwcikgtqt" path="res://textures/default.png" id="1_rrl2n"]
@@ -22,10 +22,19 @@ glow_enabled = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_o1t8a"]
 size = Vector3(100, 1, 100)
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w3kpy"]
+noise_type = 3
+seed = 5
+frequency = 0.0955
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xibqm"]
+seamless = true
+seamless_blend_skirt = 0.357
+noise = SubResource("FastNoiseLite_w3kpy")
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c1b3n"]
-albedo_texture = ExtResource("1_rrl2n")
-uv1_scale = Vector3(0.25, 0.25, 0.25)
-uv1_triplanar = true
+albedo_color = Color(0.415686, 0.788235, 0.439216, 1)
+albedo_texture = SubResource("NoiseTexture2D_xibqm")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ki1ib"]
 material = SubResource("StandardMaterial3D_c1b3n")
@@ -52,6 +61,7 @@ shadow_enabled = true
 physics_material_override = SubResource("PhysicsMaterial_8a8ve")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_o1t8a")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
@@ -59,9 +69,6 @@ mesh = SubResource("PlaneMesh_ki1ib")
 skeleton = NodePath("../..")
 
 [node name="Player" parent="." instance=ExtResource("2_hjn2w")]
-jumpVelocity = 5.0
-airSpeed = 16.0
-airAccel = 64.0
 
 [node name="Forward_NegativeZ" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 23.1, -57.255)
