@@ -61,7 +61,7 @@ public partial class Player : CharacterBody3D
 		// Saving this link for future reference on using Transforms.
 		if (@event is InputEventMouseMotion mouseMotion)
 		{
-			//	modify the rotation based on mouse movement
+			// modify the rotation based on mouse movement
 			rotationX -= mouseMotion.Relative.X * lookSpeed;
 			rotationY -= mouseMotion.Relative.Y * lookSpeed;
 

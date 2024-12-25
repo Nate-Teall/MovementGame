@@ -3,7 +3,11 @@ using System;
 
 public partial class Grappling : PlayerState
 {
-	public override void Enter(string prevState) { }
+	private GrappleHook grappleHook;
+	public override void Enter(string prevState) 
+	{ 
+		grappleHook = player.grapplingHook;
+	}
 
 	public override void HandleInput(InputEvent @event) { }
 
@@ -19,7 +23,7 @@ public partial class Grappling : PlayerState
 			{
 				EmitSignal(SignalName.Finished, FALLING);
 			}
-			else if (Input.IsActionJustPressed("crouch"))
+			else if (Input.IsActionPressed("crouch"))
 			{
 				EmitSignal(SignalName.Finished, CROUCHING);
 			}
@@ -45,15 +49,30 @@ public partial class Grappling : PlayerState
 	public override void PhysicsUpdate(double delta) 
 	{ 
 		// Apply an acceleration towards the hook
-		Vector3 directionToHook = (player.grapplingHook.Position - player.Position).Normalized();
+		Vector3 directionToHook = (grappleHook.Position - player.Position).Normalized();
 		// Apply a slight acceleration in the player's look direction
 		//Vector3 lookDirection = -player.head.Transform.Basis.Z.Normalized();
-
-		Vector3 newVelocity = player.Velocity;
 		
-		newVelocity += directionToHook * (player.grapplingHookAcceleration * (float)delta);
+		// If the hook point is beneath the player, they will stay on the ground
+		// They can jump and move only towards the hook
+		if (player.IsOnFloor() && grappleHook.Position.Y <= player.Position.Y)
+		{
+			Vector3 inputDir = GetInputDirection();
+			
+			if ( inputDir.AngleTo(directionToHook) <= (Mathf.Pi / 2) )
+				player.Velocity = MoveInDirection(player.walkSpeed);
+			else
+				player.Velocity = Vector3.Zero;
 
-		player.Velocity = newVelocity;
+			if (Input.IsActionJustPressed("jump"))
+			{
+				player.Velocity += new Vector3(0, player.jumpVelocity, 0);
+			}
+		}
+		else
+		{
+			player.Velocity += directionToHook * (player.grapplingHookAcceleration * (float)delta);
+		}
 
 		player.MoveAndSlide();
 	}

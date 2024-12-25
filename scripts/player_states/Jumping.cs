@@ -7,8 +7,6 @@ public partial class Jumping : PlayerState
 	//private float strafeSpeed = 2;
 	public override void Enter(string prevState)
 	{
-		Vector3 newVelocity = player.Velocity;
-
 		// Change velocity to the facing direction
 		// Have to decide which way I want slide-jumping to work. For now this remains disabled
 		/*Vector3 facingDirection = -player.head.Transform.Basis.Z;
@@ -18,9 +16,7 @@ public partial class Jumping : PlayerState
 		newVelocity *= currentSpeed;*/
 
 		// Jump impulse
-		newVelocity.Y = player.jumpVelocity;
-
-		player.Velocity = newVelocity;
+		player.Velocity += new Vector3(0, player.jumpVelocity, 0);
 	}
 
 	public override void HandleInput(InputEvent @event) { }
