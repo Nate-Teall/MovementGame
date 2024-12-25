@@ -13,7 +13,6 @@ material = SubResource("StandardMaterial3D_ogk4o")
 [sub_resource type="BoxShape3D" id="BoxShape3D_rcd4t"]
 
 [node name="GrappleHook" type="Node3D"]
-visible = false
 script = ExtResource("1_v5j04")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

@@ -15,12 +15,18 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public float slideDecel { get; private set; } = 8f;
 
-	// Constants
+	// Grappling hook variables
+	public GrappleHook grapplingHook { get; private set; }
+	[Export]
+	public float grapplingHookAcceleration { get; private set; } = 32f;
+
+	// Other constants
 	public const float crouchHeightScale = 0.3f;
 
 	// Child nodes
 	public Node3D head { get; private set; }
 	public CollisionShape3D collision { get; private set; }
+	private StateMachine stateMachine;
 
 	// Camera movement variables
 	[Export]
@@ -33,15 +39,14 @@ public partial class Player : CharacterBody3D
 	// Scenes
 	private PackedScene grappleHookScene = GD.Load<PackedScene>("res://scenes/grapple_hook.tscn");
 
-	// Grappling hook variables
-	private GrappleHook grapplingHook;
-
     public override void _Ready()
     {
 		collision = GetChild<CollisionShape3D>(0);
 		head = GetChild<Node3D>(1);
+		stateMachine = GetChild<StateMachine>(2);
 
 		grapplingHook = GetNode<GrappleHook>("../GrappleHook");
+		grapplingHook.Attached += _GrappleAttached;
 
 		Input.SetMouseMode(Input.MouseModeEnum.Captured);
 		screenCenter = new Vector2(
@@ -94,5 +99,14 @@ public partial class Player : CharacterBody3D
 
     public override void _PhysicsProcess(double delta)
 	{
+	}
+
+	public void _GrappleAttached()
+	{
+		// Transition to the grappling state when the hook attaches to a surface. 
+		// Transitioning between states outside of a State class is probably not best practice
+		// The alternative is either making every state listen for the Attached Event, or
+		// 	have every PlayerState check the grapplingHook state every frame it is active
+		stateMachine.TransitionToNextState("Grappling");
 	}
 }

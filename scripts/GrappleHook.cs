@@ -11,6 +11,10 @@ public partial class GrappleHook : Node3D
 		RETURNING
 	}
 
+	// Event for when the grappling hook attaches to a surface
+	[Signal]
+	public delegate void AttachedEventHandler();
+
 	[Export]
 	private float projectileSpeed = 50f;
 	[Export]
@@ -26,6 +30,7 @@ public partial class GrappleHook : Node3D
 	public override void _Ready()
 	{
 		player = GetNode<Player>("../Player");
+		Hide();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -60,6 +65,7 @@ public partial class GrappleHook : Node3D
 		if (state == GrappleState.FIRED && body is not Player)
 		{
 			direction = Vector3.Zero;
+			EmitSignal(SignalName.Attached);
 		}
 		else if (state == GrappleState.RETURNING && body is Player)
 		{
