@@ -30,7 +30,7 @@ public abstract partial class PlayerState : State
 	}
 
 	// Returns the player's input direction (8 ways)
-	protected Vector3 GetInputDirection()
+	protected Vector3 GetGlobalInputDirection()
 	{
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
 		return (player.collision.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
@@ -40,7 +40,7 @@ public abstract partial class PlayerState : State
 	{
 		Vector3 newVelocity = player.Velocity;
 
-		Vector3 direction = GetInputDirection();
+		Vector3 direction = GetGlobalInputDirection();
 
 		if (direction != Vector3.Zero)
 		{

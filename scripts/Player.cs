@@ -17,8 +17,6 @@ public partial class Player : CharacterBody3D
 
 	// Grappling hook variables
 	public GrappleHook grapplingHook { get; private set; }
-	[Export]
-	public float grapplingHookAcceleration { get; private set; } = 32f;
 
 	// Other constants
 	public const float crouchHeightScale = 0.3f;

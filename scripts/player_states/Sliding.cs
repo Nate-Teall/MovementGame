@@ -10,7 +10,7 @@ public partial class Sliding : PlayerState
 	{ 
 		// Get the player's current speed and input direction
 		slideSpeed = player.Velocity.Length();
-		movingDirection = GetInputDirection();  			// slide in direction of input
+		movingDirection = GetGlobalInputDirection();  			// slide in direction of input
 
 		if (movingDirection == Vector3.Zero)
 			movingDirection = player.Velocity.Normalized(); // slide in direction of velocity

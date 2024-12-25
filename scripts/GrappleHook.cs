@@ -19,6 +19,12 @@ public partial class GrappleHook : Node3D
 	private float projectileSpeed = 50f;
 	[Export]
 	private float returnSpeed = 75f;
+	[Export]
+	public float hookAcceleration { get; private set; } = 32f;
+	[Export]
+	public float lookDirectionAccel { get; private set; } = 6f;
+	[Export]
+	public float initialBoost {get; private set; } = 4f;
 
 	private GrappleState state = GrappleState.WAITING;
 
