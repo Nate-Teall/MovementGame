@@ -14,6 +14,8 @@ public partial class Grappling : PlayerState
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
 		if (inputDir.Y <= 0)
 		{
+			// CHANGE THIS: W should accelerate TOWARDS grapple point, D to the right relative to grapple point
+			// (I think, not too sure tbh)
 			Vector3 globalInputDir = (player.collision.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 			player.Velocity += globalInputDir * grappleHook.initialBoost;
 		}

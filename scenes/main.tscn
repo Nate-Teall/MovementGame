@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://chap8sftr1xwk"]
+[gd_scene load_steps=25 format=3 uid="uid://chap8sftr1xwk"]
 
 [ext_resource type="Texture2D" uid="uid://di3yfwcikgtqt" path="res://textures/default.png" id="1_rrl2n"]
 [ext_resource type="PackedScene" uid="uid://cbi4vtgbsyayt" path="res://scenes/player.tscn" id="2_hjn2w"]
@@ -77,6 +77,17 @@ uv1_triplanar = true
 material = SubResource("StandardMaterial3D_kyrbi")
 size = Vector3(64, 1, 32)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_2r2bh"]
+size = Vector3(50, 25, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpd0i"]
+albedo_texture = ExtResource("1_rrl2n")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_juw24"]
+material = SubResource("StandardMaterial3D_lpd0i")
+size = Vector3(50, 25, 1)
+
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -149,3 +160,12 @@ shape = SubResource("BoxShape3D_d356q")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="surface"]
 mesh = SubResource("BoxMesh_5arua")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 113.301, 12.1263, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_2r2bh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_juw24")

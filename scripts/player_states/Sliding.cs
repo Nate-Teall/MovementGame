@@ -13,7 +13,7 @@ public partial class Sliding : PlayerState
 		movingDirection = GetGlobalInputDirection();  			// slide in direction of input
 
 		if (movingDirection == Vector3.Zero)
-			movingDirection = player.Velocity.Normalized(); // slide in direction of velocity
+			movingDirection = player.Velocity.Normalized();     // slide in direction of velocity
 
 		Vector3 newHeadPos = player.head.Position;
 		newHeadPos.Y *= Player.crouchHeightScale;
@@ -79,6 +79,11 @@ public partial class Sliding : PlayerState
 			{
 				EmitSignal(SignalName.Finished, IDLE);
 			}
+		}
+
+		if (!player.IsOnFloor())
+		{
+			EmitSignal(SignalName.Finished, FALLING);
 		}
 	}
 

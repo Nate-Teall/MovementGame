@@ -16,6 +16,7 @@ public abstract partial class PlayerState : State
 	protected const string FALLING = "Falling";
 	protected const string CROUCHING = "Crouching";
 	protected const string SLIDING = "Sliding";
+	protected const string WALLRIDING = "Wallriding";
 
 	protected Player player;
 

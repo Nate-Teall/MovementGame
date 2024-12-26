@@ -19,7 +19,13 @@ public partial class Jumping : PlayerState
 		player.Velocity += new Vector3(0, player.jumpVelocity, 0);
 	}
 
-	public override void HandleInput(InputEvent @event) { }
+	public override void HandleInput(InputEvent @event) 
+	{ 
+		if (player.IsOnWall() && Input.IsActionPressed("jump"))
+		{
+			EmitSignal(SignalName.Finished, WALLRIDING);
+		}
+	}
 
 	public override void Update(double delta) { }
 

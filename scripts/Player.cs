@@ -14,6 +14,10 @@ public partial class Player : CharacterBody3D
 	public float crouchSpeed { get; private set; } = 4f;
 	[Export]
 	public float slideDecel { get; private set; } = 8f;
+	[Export]
+	public float minWallSpeed { get; private set; } = 12f;
+	[Export]
+	public float wallDecel { get; private set; } = 8f;
 
 	// Grappling hook variables
 	public GrappleHook grapplingHook { get; private set; }
