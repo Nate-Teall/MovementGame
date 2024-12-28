@@ -3,7 +3,22 @@ using System;
 
 public partial class Wallriding : PlayerState
 {
-	public override void Enter(string prevState) { }
+	private float wallrideSpeed = 8f;
+	private float wallDecel = 8f;
+	private float currentWallSpeed;
+	
+
+	public override void Enter(string prevState) 
+	{
+		Vector3 wallNormal = player.GetWallNormal();
+		Vector3 currentVelocity = player.Velocity;
+
+		Vector3 velocityAwayFromWall = currentVelocity.Project(wallNormal);
+		currentVelocity -= velocityAwayFromWall;
+		currentVelocity.Y = 0;
+
+		currentWallSpeed = currentVelocity.Length();
+	}
 
 	public override void HandleInput(InputEvent @event) 
 	{ 
@@ -27,23 +42,25 @@ public partial class Wallriding : PlayerState
 		Vector3 wallNormal = player.GetWallNormal();
 		Vector3 newVelocty = player.Velocity;
 
-		// Remove the component of the player's velocity that is perpendicular to the wall
+		// Player can only move horizontally along the wall
 		Vector3 velocityAwayFromWall = newVelocty.Project(wallNormal);
 		newVelocty -= velocityAwayFromWall;
+		newVelocty.Y = 0;
 
-		// Player can only move horizontally along the wall
-		// Note: Lucio wallriding does bring the player upwards for a moment at the beginning
-		if ( Mathf.Abs(newVelocty.Y) > 4f )
-		{
-			newVelocty.Y = 4f * Mathf.Sign(newVelocty.Y);
-		}
-		
 		// Set the player's speed on the wall to a minimum.
-		// If it is above the minimum, decellerate the player towards it.
-		if (newVelocty.Length() < player.minWallSpeed)
+		// Otherwise, if it is above the minimum, decellerate the player towards it.
+
+		// Decellerate/accellerate the player towards the wall riding speed
+		currentWallSpeed = Mathf.MoveToward(currentWallSpeed, wallrideSpeed, wallDecel * (float)delta);
+		newVelocty = newVelocty.Normalized() * currentWallSpeed;
+		/*if (newVelocty.Length() < minWallSpeed)
 		{
-			//newVelocty = newVelocty.Normalized() * player.minWallSpeed;
+			newVelocty = newVelocty.Normalized() * minWallSpeed;
 		}
+		else 
+		{
+			
+		}*/
 
 		player.Velocity = newVelocty;
 		player.MoveAndSlide();
