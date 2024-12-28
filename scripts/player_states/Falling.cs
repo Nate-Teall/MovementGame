@@ -42,6 +42,10 @@ public partial class Falling : PlayerState
 				EmitSignal(SignalName.Finished, WALKING);
 			}
 		}
+		else if (player.IsOnWall() && Input.IsActionPressed("jump"))
+		{
+			EmitSignal(SignalName.Finished, WALLRIDING);
+		}
 	}
 
 	public override void Exit() { }
