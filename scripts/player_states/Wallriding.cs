@@ -6,7 +6,8 @@ public partial class Wallriding : PlayerState
 	private float wallrideSpeed = 8f;
 	private float wallDecel = 8f;
 	private float currentWallSpeed;
-	
+	private float exitLookBoost = 4f;	
+	private float exitWallBoost = 4f;
 
 	public override void Enter(string prevState) 
 	{
@@ -24,7 +25,9 @@ public partial class Wallriding : PlayerState
 	{ 
 		if (Input.IsActionJustReleased("jump"))
 		{
-			// Also, give player a boost of speed in the direction they are looking
+			// give player a boost of speed in the direction they are looking away from the wall
+			player.Velocity += -player.head.Transform.Basis.Z * exitLookBoost;
+			player.Velocity += player.GetWallNormal() * exitWallBoost; 
 
 			EmitSignal(SignalName.Finished, FALLING);
 		}
@@ -47,20 +50,9 @@ public partial class Wallriding : PlayerState
 		newVelocty -= velocityAwayFromWall;
 		newVelocty.Y = 0;
 
-		// Set the player's speed on the wall to a minimum.
-		// Otherwise, if it is above the minimum, decellerate the player towards it.
-
 		// Decellerate/accellerate the player towards the wall riding speed
 		currentWallSpeed = Mathf.MoveToward(currentWallSpeed, wallrideSpeed, wallDecel * (float)delta);
 		newVelocty = newVelocty.Normalized() * currentWallSpeed;
-		/*if (newVelocty.Length() < minWallSpeed)
-		{
-			newVelocty = newVelocty.Normalized() * minWallSpeed;
-		}
-		else 
-		{
-			
-		}*/
 
 		player.Velocity = newVelocty;
 		player.MoveAndSlide();
