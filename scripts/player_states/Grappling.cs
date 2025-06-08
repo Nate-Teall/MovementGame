@@ -14,8 +14,6 @@ public partial class Grappling : PlayerState
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
 		if (inputDir.Y <= 0)
 		{
-			// CHANGE THIS: W should accelerate TOWARDS grapple point, D to the right relative to grapple point
-			// (I think, not too sure tbh)
 			Vector3 globalInputDir = (player.collision.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
 			player.Velocity += globalInputDir * grappleHook.initialBoost;
 		}
@@ -69,11 +67,12 @@ public partial class Grappling : PlayerState
 		if (player.IsOnFloor() && grappleHook.Position.Y <= player.Position.Y)
 		{
 			Vector3 inputDir = GetGlobalInputDirection();
-
-			if ( inputDir.AngleTo(directionToHook) <= (Mathf.Pi / 2) )
+			
+			if ( inputDir.Dot(directionToHook) >= 0 )
 				player.Velocity = MoveInDirection(player.walkSpeed);
 			else
 				player.Velocity = Vector3.Zero;
+			
 
 			if (Input.IsActionJustPressed("jump"))
 			{
@@ -85,7 +84,7 @@ public partial class Grappling : PlayerState
 			player.Velocity += directionToHook * (grappleHook.hookAcceleration * (float)delta);
 
 			// Additonally, apply a small accelleration in the player's look direction
-			player.Velocity += -player.head.Transform.Basis.Z * (grappleHook.lookDirectionAccel * (float)delta);
+			//player.Velocity += -player.head.Transform.Basis.Z * (grappleHook.lookDirectionAccel * (float)delta);
 		}
 
 		player.MoveAndSlide();

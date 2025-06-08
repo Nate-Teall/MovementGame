@@ -22,7 +22,7 @@ public partial class GrappleHook : Node3D
 	[Export]
 	public float hookAcceleration { get; private set; } = 32f;
 	[Export]
-	public float lookDirectionAccel { get; private set; } = 6f;
+	public float lookDirectionAccel { get; private set; } = 6f; // CURRENTLY DISABLED
 	[Export]
 	public float initialBoost {get; private set; } = 4f;
 
