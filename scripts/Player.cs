@@ -9,6 +9,8 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public float sprintSpeed { get; private set; } = 16f;
 	[Export]
+	public float airAccel { get; private set; } = 6f;
+	[Export]
 	public float jumpVelocity { get; private set; } = 5f;
 	[Export]
 	public float crouchSpeed { get; private set; } = 4f;
@@ -33,6 +35,10 @@ public partial class Player : CharacterBody3D
 	// holds the current X and Y rotation of the player's head
 	private float rotationX;
 	private float rotationY;
+
+	// Saved location for quick restarting
+	private Vector3 savedLocation = new Vector3(0,0,0);
+
 
 	// Scenes
 	private PackedScene grappleHookScene = GD.Load<PackedScene>("res://scenes/grapple_hook.tscn");
@@ -70,8 +76,8 @@ public partial class Player : CharacterBody3D
 			// reset the rotation of the basis of the head and collision box
 			// AKA x, y, z = [1,0,0] [0,1,0] [0,0,1]
 			Transform3D headTransform = head.Transform;
-        	headTransform.Basis = Basis.Identity;
-        	head.Transform = headTransform;
+			headTransform.Basis = Basis.Identity;
+			head.Transform = headTransform;
 
 			Transform3D collisionTransform = collision.Transform;
 			collisionTransform.Basis = Basis.Identity;
@@ -86,12 +92,22 @@ public partial class Player : CharacterBody3D
 		}
 
 		if (Input.IsActionJustPressed("grapple"))
-		{		
+		{
 			grapplingHook.Fire(head.GlobalPosition, -head.Transform.Basis.Z.Normalized());
 		}
 		else if (Input.IsActionJustReleased("grapple"))
 		{
 			grapplingHook.Return();
+		}
+
+		if (Input.IsActionJustPressed("set"))
+		{
+			savedLocation = this.Position;
+		}
+		if (Input.IsActionJustPressed("reset"))
+		{
+			Position = savedLocation;
+			Velocity = new Vector3(0, 0, 0);
 		}
 	}
 

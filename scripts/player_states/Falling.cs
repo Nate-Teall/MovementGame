@@ -15,6 +15,10 @@ public partial class Falling : PlayerState
 
 		player.Velocity += player.GetGravity() * (float)delta;
 
+		// move around in the air
+		Vector3 moveDirection = GetGlobalInputDirection();
+		player.Velocity += moveDirection * player.airAccel * (float)delta;
+
 		player.MoveAndSlide();
 
 		Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");

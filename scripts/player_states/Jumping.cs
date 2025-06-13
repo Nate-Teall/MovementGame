@@ -34,17 +34,9 @@ public partial class Jumping : PlayerState
 		Vector3 newVelocity = player.Velocity;
 		newVelocity += player.GetGravity() * (float)delta;
 
-		// Allow for a little bit of side-to-side air control
-		// Once again, I am not sure how much control I want the player to have mid-air. Will revisit this
-		/*Vector2 inputDir = Input.GetVector("left", "right", "forward", "back");
-		Vector3 direction = (player.head.Transform.Basis * new Vector3(inputDir.X, 0, inputDir.Y)).Normalized();
-
-		if (direction.X != 0)
-			newVelocity.X = Mathf.MoveToward(newVelocity.X, direction.X * player.airSpeed, player.airAccel * (float)delta);
-
-		if (direction.Z != 0)
-			newVelocity.Z = Mathf.MoveToward(newVelocity.Z, direction.Z * player.airSpeed, player.airAccel * (float)delta);
-		*/
+		// move around in the air
+		Vector3 moveDirection = GetGlobalInputDirection();
+		newVelocity += moveDirection * player.airAccel * (float)delta;
 
 		player.Velocity = newVelocity;
 		player.MoveAndSlide();
